@@ -11,6 +11,7 @@ Sistema desenvolvido para a instituição VidaPlus com o objetivo de centralizar
 * Entity Framework Core
 * MySQL
 * Docker
+* VS Code
 * Swagger
 * JWT
 * BCrypt
