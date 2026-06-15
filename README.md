@@ -74,6 +74,100 @@ MySQL utilizando Entity Framework Core e Migrations.
 
 A API é documentada através do Swagger.
 
+## Como executar o projeto
+
+### Pré-requisitos
+
+Antes de executar o sistema, é necessário ter instalado:
+
+* .NET 8 SDK
+* Docker Desktop
+* Git
+* Visual Studio Code ou outra IDE compatível
+
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/Andrei-fb/SGHSS-API.git
+cd SGHSS-API
+```
+
+### 2. Subir o banco de dados MySQL com Docker
+
+```bash
+docker run -d --name mysql_sghss -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=sghss_db mysql:8.0
+```
+
+### 3. Restaurar os pacotes do projeto
+
+```bash
+dotnet restore
+```
+
+### 4. Aplicar as migrations no banco de dados
+
+```bash
+dotnet ef database update
+```
+
+### 5. Executar a API
+
+```bash
+dotnet run
+```
+
+### 6. Acessar o Swagger
+
+Com a API em execução, acesse no navegador:
+
+```text
+http://localhost:5100/swagger
+```
+ATENÇÃO! A porta deve ser a que resultou após usar o comando: dotnet run.
+
+### 7. Testar autenticação
+
+Primeiro, cadastre um usuário administrador:
+
+```json
+{
+  "nome": "Administrador VidaPlus",
+  "email": "admin@vidaplus.com",
+  "senha": "123456",
+  "perfil": "Administrador"
+}
+```
+
+Endpoint:
+
+```text
+POST /api/Auth/registrar
+```
+
+Depois, faça login:
+
+```json
+{
+  "email": "admin@vidaplus.com",
+  "senha": "123456"
+}
+```
+
+Endpoint:
+
+```text
+POST /api/Auth/login
+```
+
+A resposta retornará um token JWT. No Swagger, clique em **Authorize** e informe:
+
+```text
+Bearer SEU_TOKEN_AQUI
+```
+
+Após isso, os endpoints protegidos poderão ser testados normalmente.
+
+
 ## Autor
 
 Andrei Francisco
