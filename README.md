@@ -98,6 +98,12 @@ cd SGHSS-API
 docker run -d --name mysql_sghss -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=sghss_db mysql:8.0
 ```
 
+Caso o container já exista, execute:
+
+```bash
+docker start mysql_sghss
+```
+
 ### 3. Restaurar os pacotes do projeto
 
 ```bash
@@ -118,16 +124,25 @@ dotnet run
 
 ### 6. Acessar o Swagger
 
-Com a API em execução, acesse no navegador:
+Com a API em execução, acesse no navegador o endereço exibido pelo comando `dotnet run`, seguido de `/swagger`.
+
+Exemplo:
 
 ```text
 http://localhost:5100/swagger
 ```
-ATENÇÃO! A porta deve ser a que resultou após usar o comando: dotnet run.
+
+**Importante:** a porta pode variar dependendo da configuração do ambiente. Portanto, deve ser utilizada a porta informada pelo comando `dotnet run`.
 
 ### 7. Testar autenticação
 
-Primeiro, cadastre um usuário administrador:
+Primeiramente, cadastre um usuário administrador através do endpoint:
+
+```text
+POST /api/Auth/registrar
+```
+
+Utilize o seguinte JSON:
 
 ```json
 {
@@ -138,13 +153,13 @@ Primeiro, cadastre um usuário administrador:
 }
 ```
 
-Endpoint:
+Em seguida, realize o login utilizando o endpoint:
 
 ```text
-POST /api/Auth/registrar
+POST /api/Auth/login
 ```
 
-Depois, faça login:
+Com o seguinte JSON:
 
 ```json
 {
@@ -153,20 +168,15 @@ Depois, faça login:
 }
 ```
 
-Endpoint:
+A API retornará um token JWT.
 
-```text
-POST /api/Auth/login
-```
-
-A resposta retornará um token JWT. No Swagger, clique em **Authorize** e informe:
+No Swagger, clique em **Authorize** e informe:
 
 ```text
 Bearer SEU_TOKEN_AQUI
 ```
 
-Após isso, os endpoints protegidos poderão ser testados normalmente.
-
+Após a autenticação, todos os endpoints protegidos poderão ser utilizados normalmente.
 
 ## Autor
 
